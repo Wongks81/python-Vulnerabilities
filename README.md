@@ -1,6 +1,6 @@
 Summary
 =======
-This is a small project to help the team consolidating data that were passed by other departments
+This is a small project to help the team consolidating data that were given by other departments
 
 Data
 ====
