@@ -26,7 +26,7 @@ def main():
     writeToResultXLS(reportWB,intuneWB,resultWB)
 
     
-    resultWB.save("test.xlsx")
+    resultWB.save("result.xlsx")
     closeWB(resultWB,reportWB,intuneWB)
     
 
@@ -35,7 +35,7 @@ def checkAllWS(intuneWB : Workbook, reportWB : Workbook):
     if(checkWSExist(intuneWB,'Intune') == False):
         sys.exit(ERR_MSG.Intune_ws_err.value)
     
-    if(checkWSExist(reportWB,'Scheduled-Report-Darwin---Detai') == False):
+    if(checkWSExist(reportWB,REPORT_SHEET_NAME) == False):
         sys.exit(ERR_MSG.Main_ws_err.value)
     
     if(checkWSExist(reportWB,'Laptops') == False):
@@ -59,9 +59,9 @@ def writeToResultXLS(reportWB: Workbook, intuneWB : Workbook,resultWB : Workbook
     result_Row = intune_Row = list_Row = kev_Row = 1
     writeResultWSHeaders(resultWB,'Sheet',result_Row)
 
-    for report_Row in range(1,reportWB['Scheduled-Report-Darwin---Detai'].max_row):
+    for report_Row in range(1,reportWB[REPORT_SHEET_NAME].max_row):
         # convert NetBios name for current row  in report.xlsx to string for comparison
-        netBios_Report = str(reportWB['Scheduled-Report-Darwin---Detai'].cell(report_Row,REPORT_HEADERS.NetBios.value).value)
+        netBios_Report = str(reportWB[REPORT_SHEET_NAME].cell(report_Row,REPORT_HEADERS.NetBios.value).value)
         
         # Check if row value belongs to LAPTOP or India VMs
         if(('LAPTOP' in netBios_Report ) or ('THM-DEV' in netBios_Report )):
@@ -79,11 +79,11 @@ def writeToResultXLS(reportWB: Workbook, intuneWB : Workbook,resultWB : Workbook
 
             # NetBios name starts with 'LAPTOP*' or 'THM*'
             resultWB['Sheet'].cell(result_Row+1,RESULT_HEADERS.Country.value).value = intuneWB['Intune'].cell(intune_Row,INTUNE_HEADERS.Category.value).value
-            resultWB['Sheet'].cell(result_Row+1,RESULT_HEADERS.LaptopName.value).value = reportWB['Scheduled-Report-Darwin---Detai'].cell(report_Row,REPORT_HEADERS.NetBios.value).value
-            resultWB['Sheet'].cell(result_Row+1,RESULT_HEADERS.Title.value).value = reportWB['Scheduled-Report-Darwin---Detai'].cell(report_Row,REPORT_HEADERS.Title.value).value
-            resultWB['Sheet'].cell(result_Row+1,RESULT_HEADERS.Severity.value).value = reportWB['Scheduled-Report-Darwin---Detai'].cell(report_Row,REPORT_HEADERS.Severity.value).value
-            resultWB['Sheet'].cell(result_Row+1,RESULT_HEADERS.Solution.value).value = reportWB['Scheduled-Report-Darwin---Detai'].cell(report_Row,REPORT_HEADERS.Solution.value).value
-            resultWB['Sheet'].cell(result_Row+1,RESULT_HEADERS.Results.value).value = reportWB['Scheduled-Report-Darwin---Detai'].cell(report_Row,REPORT_HEADERS.Results.value).value
+            resultWB['Sheet'].cell(result_Row+1,RESULT_HEADERS.LaptopName.value).value = reportWB[REPORT_SHEET_NAME].cell(report_Row,REPORT_HEADERS.NetBios.value).value
+            resultWB['Sheet'].cell(result_Row+1,RESULT_HEADERS.Title.value).value = reportWB[REPORT_SHEET_NAME].cell(report_Row,REPORT_HEADERS.Title.value).value
+            resultWB['Sheet'].cell(result_Row+1,RESULT_HEADERS.Severity.value).value = reportWB[REPORT_SHEET_NAME].cell(report_Row,REPORT_HEADERS.Severity.value).value
+            resultWB['Sheet'].cell(result_Row+1,RESULT_HEADERS.Solution.value).value = reportWB[REPORT_SHEET_NAME].cell(report_Row,REPORT_HEADERS.Solution.value).value
+            resultWB['Sheet'].cell(result_Row+1,RESULT_HEADERS.Results.value).value = reportWB[REPORT_SHEET_NAME].cell(report_Row,REPORT_HEADERS.Results.value).value
 
             # check if current Vulnerability is a KEV
             for kev_Row in range(1,resultWB['KEV'].max_row):

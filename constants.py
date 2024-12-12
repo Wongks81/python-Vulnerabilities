@@ -1,6 +1,6 @@
 from enum import Enum 
 
-REPORT_SHEET_NAME = 'Scheduled-Report-Darwin---Detai'
+REPORT_SHEET_NAME = 'Scheduled-Report'
 
 class REPORT_HEADERS(Enum):
     NetBios = 4
@@ -28,5 +28,5 @@ class RESULT_HEADERS(Enum):
 
 class ERR_MSG(Enum):
     Intune_ws_err = 'Unable to find Intune worksheet in intune.xlsx'
-    Main_ws_err = 'Unable to find Main worksheet in report.xlsx'
+    Main_ws_err = 'Unable to find Scheduled-Report worksheet in report.xlsx'
     Laptop_ws_err = 'Unable to find Laptop worksheet in report.xlsx!'
